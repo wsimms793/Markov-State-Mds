@@ -1,9 +1,6 @@
-%pip install deeptime
-
 ######################################################################################
 #Importing relavent libraries.
 
-import deeptime
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.linalg import lstsq
