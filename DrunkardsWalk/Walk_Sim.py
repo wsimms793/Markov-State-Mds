@@ -1,3 +1,5 @@
+%pip install deeptime
+
 ######################################################################################
 #Importing relavent libraries.
 
@@ -24,6 +26,7 @@ for i in range(0,N):
         position[i,j] = (i) + (j) + n*(N-1) 
     n += 1
 ######################################################################################
+
 ######################################################################################
 #Defining the actual transition matrix.
 def p(i, j):
@@ -121,7 +124,7 @@ def move(X):
 np.random.seed(1234)
 
 #Number of steps.
-n = 125
+n = 100
 
 #Array for positions.
 X = np.zeros(n, dtype=int)
@@ -150,5 +153,92 @@ plt.plot(x[0], y[0], '*', markersize=12, label='Home')
 plt.plot(N-1, N-1, '*', markersize=12, label='Bar')
 plt.plot(x[n-1],y[n-1],'o',markersize = 12, label = 'endpoint')
 plt.legend(loc='lower right')
+
+######################################################################################
+
+######################################################################################
+#Determining the unique invariant distrubution.
+
+
+#Producing transition Prob. Matrix.
+P = np.zeros((N*N, N*N))
+
+#Filling entries
+for i in range(0,N*N):
+    for j in range(0,N*N):
+        P[i, j] = p(i, j)
+
+#Findind the invariant distrubution.
+pi = np.zeros(N**2)
+
+P_T = np.transpose(P)
+
+a = P_T - np.identity(N*N)
+
+b = np.zeros(N**2)
+
+#Including normalization.
+A = np.vstack((a, np.ones(N*N)))
+B = np.append(b, 1)
+
+#Solving the system using least-squares.
+pi,residuals, rank, s = np.linalg.lstsq(A, B, rcond=None)
+
+#Veryifing the distrubution is normalized.
+sum_p = np.sum(pi)
+
+######################################################################################
+
+######################################################################################
+#Splliting the distrubuition into Marcostates.
+#Midpoint.
+mid = N // 2
+
+#Invariant distrubution for Bottom left,right and Top left, right.
+p_BL = 0
+p_BR = 0
+p_TL = 0
+p_TR = 0
+
+#Summing probabilities in each grid corner.
+for i in range(N**2):
+
+    row = i // N
+    col = i % N
+
+    if row < mid and col < mid:
+        p_BL += pi[i]
+
+    elif row < mid and col >= mid:
+        p_BR += pi[i]
+
+    elif row >= mid and col < mid:
+        p_TL += pi[i]
+
+    else:
+        p_TR += pi[i]
+
+#Collecting probabilites.
+Probs = [p_BL,p_BR,p_TL, p_TR]
+
+######################################################################################
+
+######################################################################################
+#Plotting this distrubition acorss Macro states.
+
+fig, ax = plt.subplots()
+
+Macrostates = ['Bottom Left', 'Bottom Right', 'Top Left', 'Top Right']
+bar_labels = ['Bottom Left', 'Bottom Right', 'Top Left', 'Top Right']
+bar_colors = ['tab:red', 'tab:blue', 'tab:red', 'tab:orange']
+
+ax.bar(Macrostates, Probs, label=bar_labels, color=bar_colors)
+
+ax.set_ylabel('Invariant distrubtion')
+
+ax.legend(title='Macrostate')
+
+
+
 
 ######################################################################################
