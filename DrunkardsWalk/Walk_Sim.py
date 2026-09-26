@@ -242,3 +242,4 @@ ax.legend(title='Macrostate')
 
 
 ######################################################################################
+# X is our MD trajectory by annalogy.
