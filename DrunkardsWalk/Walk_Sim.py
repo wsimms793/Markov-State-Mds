@@ -149,6 +149,6 @@ plt.grid()
 plt.plot(x[0], y[0], '*', markersize=12, label='Home')
 plt.plot(N-1, N-1, '*', markersize=12, label='Bar')
 plt.plot(x[n-1],y[n-1],'o',markersize = 12, label = 'endpoint')
-plt.legend(loc='lower left')
+plt.legend(loc='lower right')
 
 ######################################################################################
