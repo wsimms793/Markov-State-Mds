@@ -4,4 +4,7 @@ Walk_Sim.py first to generate trajectory data and anayltical results for the inv
 
 Then run MSM.py to get a MSM estimate for the invariant distrubution.
 
+Figures are named by what they contain and display the figures produced by the complied code.
+
+
 Results then talks through what this code is doing and the results of our estimation.
