@@ -121,7 +121,7 @@ def move(X):
 np.random.seed(1234)
 
 #Number of steps.
-n = 250
+n = 1000
 
 #Array for positions.
 X = np.zeros(n, dtype=int)
